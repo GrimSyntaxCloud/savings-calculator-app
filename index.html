@@ -1,37 +1,235 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savings Account Calculator App</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="scripts.js"></script>
-</head>
-
-<body>
-    <main>
-        <h1>Savings Account Calculator App</h1>
-        <label for="investment">Initial Investment:</label>
-        <input type="text" id="investment">
-        <span id="investment_error">&nbsp;</span>
-        <br>
-        <label for="years">Years:</label>
-        <input type="number" id="years" min="1" max="10" step="1" value="1">
-        <span id="years_error">&nbsp;</span>
-        <br>
-        <label for="rate">Interest rate %:</label>
-        <input type="text" id="rate">
-        <span id="rate_error">&nbsp;</span>
-        <br>
-        <label for="result">Result:</label>
-        <textarea id="result" name="result" row="10" column="15" disabled></textarea>
-        <br>
-        <label for="calculate">&nbsp;</label>
-        <input type="button" id="calculate" value="Calculate">
-        <br>
-        <label for="reset">&nbsp;</label>
-        <input type="button" name="reset" id="reset" value="Clear entries">
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A little patience, a little growth. Explore annual compound interest with a free, private savings calculator."
+    />
+    <meta name="theme-color" content="#234735" />
+    <title>Savings Calculator — Room to grow</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="scripts.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="masthead">
+        <a class="brand" href="./" aria-label="Savings Calculator home"
+          ><span class="brand-mark" aria-hidden="true">✳</span
+          ><span>Savings<br />Calculator</span></a
+        >
+        <p class="header-note">SMALL BEGINNINGS.<br />LONGER POSSIBILITIES.</p>
+        <span class="edition">A COMPOUND INTEREST STUDY</span>
+      </header>
+      <main>
+        <div class="intro">
+          <p class="eyebrow">YOUR GROWTH STUDIO</p>
+          <h1>
+            Give your savings <em>room to grow.</em
+            ><span class="sun" aria-hidden="true">✳</span>
+          </h1>
+          <p>
+            Plant a starting amount. Add time.<br />See what annual compounding
+            can do.
+          </p>
+        </div>
+        <div class="studio">
+          <section class="input-panel" aria-labelledby="inputs-title">
+            <div class="section-heading">
+              <span class="number">01</span>
+              <h2 id="inputs-title">Plant the seed</h2>
+            </div>
+            <form id="savings-form" novalidate>
+              <div class="field">
+                <label for="investment">Starting amount <span>USD</span></label>
+                <div class="input-wrap">
+                  <span aria-hidden="true">$</span
+                  ><input
+                    type="text"
+                    inputmode="decimal"
+                    id="investment"
+                    autocomplete="off"
+                    placeholder="2500"
+                    aria-describedby="investment_hint investment_error"
+                  />
+                </div>
+                <p class="hint" id="investment_hint">
+                  Greater than $0 and below $100,000. No commas.
+                </p>
+                <span class="error" id="investment_error"> </span>
+              </div>
+              <div class="field">
+                <label for="years">Time to grow <span>YEARS</span></label>
+                <div class="input-wrap">
+                  <input
+                    type="number"
+                    id="years"
+                    min="1"
+                    max="30"
+                    step="1"
+                    value="1"
+                    aria-describedby="years_hint years_error"
+                  /><span class="field-icon" aria-hidden="true">↗</span>
+                </div>
+                <p class="hint" id="years_hint">
+                  1–30 whole years. Patience is part of the process.
+                </p>
+                <span class="error" id="years_error"> </span>
+              </div>
+              <div class="field">
+                <label for="rate"
+                  >Annual interest rate <span>FIXED</span></label
+                >
+                <div class="input-wrap">
+                  <input
+                    type="text"
+                    inputmode="decimal"
+                    id="rate"
+                    autocomplete="off"
+                    placeholder="5"
+                    aria-describedby="rate_hint rate_error"
+                  /><span aria-hidden="true">%</span>
+                </div>
+                <p class="hint" id="rate_hint">
+                  0–18%. Compounded once per year.
+                </p>
+                <span class="error" id="rate_error"> </span>
+              </div>
+              <div class="form-actions">
+                <button class="calculate" id="calculate" type="submit">
+                  See it grow <span aria-hidden="true">↗</span>
+                </button>
+                <button class="reset" id="reset" type="button">
+                  ↺ Clear entries
+                </button>
+              </div>
+            </form>
+            <p class="privacy">
+              <span aria-hidden="true">●</span> Just in your browser. Nothing
+              saved or sent.
+            </p>
+          </section>
+          <section class="growth-panel" aria-labelledby="growth-title">
+            <div class="section-heading">
+              <span class="number">02</span>
+              <h2 id="growth-title">Watch it take shape</h2>
+              <span class="live-pill" id="growth-pill">READY TO PLANT</span>
+            </div>
+            <div class="result-heading" aria-live="polite" aria-atomic="true">
+              <p id="result-label">Your future balance</p>
+              <output id="balance-display">A little starts a lot.</output>
+              <p id="result-note">
+                Your growth story begins with three numbers.
+              </p>
+            </div>
+            <div class="garden" id="garden">
+              <svg
+                id="growth-graphic"
+                viewBox="0 0 480 340"
+                role="img"
+                aria-labelledby="chart-title chart-description"
+              >
+                <title id="chart-title">Annual savings growth rings</title>
+                <desc id="chart-description">
+                  Calculate a balance to see a ring for each year of growth.
+                </desc>
+                <g id="growth-rings"></g>
+                <g id="empty-seed" aria-hidden="true">
+                  <path
+                    d="M240 270V142"
+                    fill="none"
+                    stroke="#315b40"
+                    stroke-width="3"
+                  />
+                  <path
+                    d="M240 218C168 221 147 170 159 135C213 135 246 164 240 218Z"
+                    fill="#dce8ac"
+                    stroke="#315b40"
+                    stroke-width="2"
+                  />
+                  <path
+                    d="M240 179C239 122 277 83 323 93C324 147 289 182 240 179Z"
+                    fill="#5c7752"
+                  />
+                  <path
+                    d="M240 218L173 151M241 179L306 109"
+                    stroke="#315b40"
+                    stroke-width="2"
+                    fill="none"
+                  />
+                  <ellipse
+                    cx="240"
+                    cy="277"
+                    rx="94"
+                    ry="10"
+                    fill="#234735"
+                    opacity=".08"
+                  />
+                </g></svg
+              ><span class="garden-caption" id="garden-caption"
+                >THE BEST PLACE TO BEGIN IS HERE.</span
+              >
+            </div>
+            <div class="breakdown">
+              <div>
+                <span class="dot principal-dot"></span>
+                <p>You plant</p>
+                <strong id="principal-display">—</strong>
+              </div>
+              <div>
+                <span class="dot interest-dot"></span>
+                <p>Interest adds</p>
+                <strong id="interest-display">—</strong>
+              </div>
+            </div>
+            <textarea
+              id="result"
+              aria-label="Calculated future balance"
+              hidden
+              readonly
+            ></textarea>
+            <details id="year-details" hidden>
+              <summary>
+                See the year-by-year growth <span aria-hidden="true">+</span>
+              </summary>
+              <div class="table-wrap">
+                <table>
+                  <caption>
+                    Balances after annual compounding, rounded for display.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Year</th>
+                      <th scope="col">Balance</th>
+                      <th scope="col">Interest that year</th>
+                    </tr>
+                  </thead>
+                  <tbody id="year-rows"></tbody>
+                </table>
+              </div>
+            </details>
+          </section>
+        </div>
+        <aside class="model-note">
+          <span aria-hidden="true">✳</span>
+          <div>
+            <h2>Growth is a model. Life is a little less predictable.</h2>
+            <p>
+              This example uses a constant annual rate with no extra deposits,
+              withdrawals, taxes, fees or inflation. It’s an educational
+              estimate, not a promise of returns or personal financial advice.
+            </p>
+          </div>
+          <span class="formula">P × (1 + r)<sup>t</sup></span>
+        </aside>
+      </main>
+      <footer>
+        <span>MADE FOR THE LONG VIEW.</span
+        ><a href="https://grimsyntaxcloud.github.io/"
+          >A project by Andres Macias ↗</a
+        ><span>FREE. SIMPLE. PRIVATE.</span>
+      </footer>
+    </div>
+  </body>
 </html>
